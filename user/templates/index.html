@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}List Users{% endblock %}
+
+{% block content %}
+    <div class="col-md-offset-2 col-md-8">
+        <table class="table table-bordered">
+        <thead>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Banned</th>
+            <th>Role</th>
+            <th>Country</th>
+            <th>Signature</th>
+            <th>Actions</th>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {%  if user.gender == 'm' %}Male{% else %}Female{% endif %}
+                    </td>
+                    <td>{%  if user.is_banned == False %}Active{% else %}Banned{% endif %}</td>
+                    <td>{%  if user.role == 'r' %}Regular{% else %}Admin{% endif %}</td>
+                    <td>{{ user.country.name }}</td>
+                    <td>{{ user.signature }}</td>
+                    <td>
+                        <a href="/user/edit/{{ user.id }}">Edit</a> - <a href="/user/delete/{{ user.id }}" >Delete</a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+    </div>
+{% endblock %}
