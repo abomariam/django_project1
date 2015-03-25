@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}list Categories{% endblock %}
+{% block content %}
+
+<div class="col-md-offset-2 col-md-8">
+    <table class="table table-bordered">
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>lock</th>
+            <th>settings</th>
+        </tr>
+
+    {%for category in categories%}
+        <tr>
+            <td>{{category.id}}</td>
+            <td>{{category.name}}</td>
+            <td>{{category.lock}}</td>
+            <td>
+                <a href="/category/edit/{{category.id}}">Edit</a>
+                <a href="/category/delete/{{category.id}}">Delete</a>
+            </td>
+        </tr>
+    {%endfor%}
+    </table>
+
+{% endblock %}

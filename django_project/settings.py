@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_countries',
     'user',
+    'cat_forum',
     'crispy_forms'
 )
 

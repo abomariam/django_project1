@@ -4,7 +4,27 @@ from user.forms import *
 from user.models import *
 from django.core import serializers
 # Create your views here.
+def save_user(request, user):
+    obj = serializers.serialize('json', [ user, ])
+    request.session['user'] = obj
 
+def get_user(request):
+    user = list(serializers.deserialize('json',request.session.get('user')))
+    return user[0].object
+
+def login_user(request):
+    if request.method == 'POST':
+        form = LoginForm(data=request.POST)
+        if form.is_valid():
+            try:
+                user = User.objects.get(email=request.POST.get('email'), password = request.POST.get('password'))
+                save_user(request,user)
+
+                return HttpResponse(user.name)
+            except:
+                return HttpResponse("Error")
+    form = LoginForm()
+    return render(request,'login.html',{'form': form})
 def add_user(request):
 
     if request.method == 'POST' :
@@ -14,14 +34,8 @@ def add_user(request):
             return redirect('/user')
     else :
         form = UserForm()
-    user = User.objects.get(pk=1)
-    obj = serializers.serialize('json', [ user, ])
-    user2 = serializers.deserialize('json',obj)
-    arr = []
-    for u in user2:
-        arr.append(u)
-    request.session['test'] = obj
-    return render(request,'user_form.html',{'form':form, 'user':request.user,'obj':arr[0].object.email})
+
+    return render(request,'user_form.html',{'form':form, 'user':request.user})
 
 
 def edit_user(request,id):
@@ -56,9 +70,14 @@ def list_users(request):
 
 
 def delete_user(request,id):
-    try:
-        user = User.objects.get(pk=id)
-        user.delete()
-        return redirect('/user')
-    except:
-        return HttpResponse("User Not Found")
+    user = get_user(request)
+    if user and user.role == 'a':
+        try:
+            user = User.objects.get(pk=id)
+            user.delete()
+            return redirect('/user')
+        except:
+            return HttpResponse("User Not Found")
+    else:
+        return HttpResponse("You Are Not Authorized")
+

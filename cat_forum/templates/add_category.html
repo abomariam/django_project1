@@ -1,0 +1,16 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Add Category{% endblock %}
+
+{% block content %}
+
+<div class="col-md-offset-2 col-md-8">
+    <form method="post">
+        {% csrf_token %}
+        {% load crispy_forms_tags %}
+        {{ category_form |crispy }}
+        <input type="submit" value="submit" class="btn btn-success pull-right"/>
+    </form>
+</div>
+{% endblock %}
