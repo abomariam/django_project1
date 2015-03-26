@@ -5,6 +5,7 @@ from user.models import User
 class UserForm(ModelForm):
     class Meta:
         model = User
+
         widgets = {
             'password': forms.PasswordInput(),
             # 'gender' : forms.RadioSelect(),

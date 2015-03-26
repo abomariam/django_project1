@@ -2,15 +2,15 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from user.forms import *
 from user.models import *
-from django.core import serializers
+from user.helper import *
 # Create your views here.
-def save_user(request, user):
-    obj = serializers.serialize('json', [ user, ])
-    request.session['user'] = obj
 
-def get_user(request):
-    user = list(serializers.deserialize('json',request.session.get('user')))
-    return user[0].object
+def logout_user(request):
+    try:
+        del request.session['user1']
+    except:
+        pass
+    return redirect('/')
 
 def login_user(request):
     if request.method == 'POST':
@@ -20,13 +20,13 @@ def login_user(request):
                 user = User.objects.get(email=request.POST.get('email'), password = request.POST.get('password'))
                 save_user(request,user)
 
-                return HttpResponse(user.name)
+                return redirect('/')
             except:
-                return HttpResponse("Error")
+                return render(request,'login.html',{'form': form, 'error_msg':"Invalid Email or Password"})
     form = LoginForm()
     return render(request,'login.html',{'form': form})
-def add_user(request):
 
+def add_user(request):
     if request.method == 'POST' :
         form = UserForm(data=request.POST)
         if form.is_valid():
@@ -35,8 +35,21 @@ def add_user(request):
     else :
         form = UserForm()
 
-    return render(request,'user_form.html',{'form':form, 'user':request.user})
+    return render(request,'user_form.html',{'form':form, 'user':get_user(request),'user1':get_user(request)})
 
+
+def register_user(request):
+    if request.method == 'POST' :
+        form = UserForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/user')
+    else :
+        form = UserForm()
+        form.fields['is_banned'].widget = forms.HiddenInput()
+        form.fields['role'].widget = forms.HiddenInput()
+
+    return render(request,'user_form.html',{'form':form, 'user':get_user(request),'user1':get_user(request)})
 
 def edit_user(request,id):
     try:
@@ -58,7 +71,7 @@ def edit_user(request,id):
         del form.fields['password']
 
 
-    return render(request,'user_form.html',{'form':form})
+    return render(request,'user_form.html',{'form':form, 'user1':get_user(request)})
 
 def list_users(request):
     try:
@@ -66,7 +79,7 @@ def list_users(request):
     except:
         users = []
 
-    return render(request,'index.html',{'users':users})
+    return render(request,'user_list.html',{'users':users, 'user1':get_user(request)})
 
 
 def delete_user(request,id):

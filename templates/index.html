@@ -1,0 +1,62 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="col-md-offset-2 col-md-8">
+    {% if user1.role == 'a' %}
+    <div style="margin-bottom: 5px">
+    <a href="/category/add" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add Category</a>
+    </div>
+    {% endif %}
+    <div>
+    {% for cat in cats %}
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+
+            <span class="panel-title h3">{{ cat.name }}</span>
+              {% if user1.role == 'a' %}
+              <span class="pull-right">
+              <span class="badge">
+              <a href="/category/delete/{{ cat.id }}"><span class="glyphicon glyphicon-minus"></span></a>
+                  </span>
+                    <span>&nbsp;</span>
+              <span class="badge">
+                <a href="/category/edit/{{ cat.id }}"><span class="glyphicon glyphicon-edit"></span></a>
+                  </span>
+                  </span>
+              {% endif %}
+          </div>
+          <div class="panel-body">
+          {% if cat.forum_set.all|length != 0 %}
+            <table class="table table-bordered">
+                <thead class="bg-info">
+                    <tr >
+                        <th>Forum Name<span class="pull-right">Threads</span> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for forum in cat.forum_set.all %}
+                        <tr>
+                            <td><a href="/forum/list/{{ forum.id }}"> {{ forum.name }} </a><span class="badge pull-right">{{ forum.thread_set.all|length }}</span></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+              No Forums To Display
+            {% endif %}
+          </div>
+        {% if user1.role == 'a' %}
+        <div class="panel-footer">
+
+            <a href="/forum/add/{{ cat.id }}"><span class="glyphicon glyphicon-plus"></span> Add Forum</a>
+
+        </div>
+        {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

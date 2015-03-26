@@ -38,7 +38,9 @@ INSTALLED_APPS = (
     'django_countries',
     'user',
     'cat_forum',
-    'crispy_forms'
+    'crispy_forms',
+    'replay',
+    'thread',
 )
 
 MIDDLEWARE_CLASSES = (

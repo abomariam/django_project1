@@ -23,3 +23,6 @@ class User(models.Model):
     country = CountryField(default='EG')
 
     signature = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
