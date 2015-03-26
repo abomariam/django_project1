@@ -6,13 +6,35 @@
 
     <div class="panel panel-primary">
           <div class="panel-heading">
-            <h3 class="panel-title">{{ thread.title }}</h3>
+            <span class="panel-title h3">{{ thread.title }}</span>
+              {% if user1.role == 'a' or user1.id == thread.author.id %}
+              <span class="pull-right">
+              <span class="badge">
+              <a href="/thread/delete/{{ thread.id }}"><span class="glyphicon glyphicon-minus"></span></a>
+                  </span>
+                    <span>&nbsp;</span>
+              <span class="badge">
+                <a href="/thread/edit/{{ thread.id }}"><span class="glyphicon glyphicon-edit"></span></a>
+                  </span>
+                  </span>
+              {% endif %}
           </div>
         <div class="panel-body">
         {%for replay in thread.replay_set.all %}
             <div class="panel panel-info">
               <div class="panel-heading">
-                <h3 class="panel-title">{{ replay.author.name }} Says:</h3>
+                <span class="panel-title h3">{{ replay.author.name }} Say: </span>
+                  {% if user1.role == 'a' or user1.id == replay.author.id %}
+                  <span class="pull-right">
+                  <span class="">
+                  <a href="/replay/delete/{{ replay.id }}"><span class="glyphicon glyphicon-minus"></span></a>
+                      </span>
+                        <span>&nbsp;</span>
+                  <span class="">
+                    <a href="/replay/edit/{{ replay.id }}"><span class="glyphicon glyphicon-edit"></span></a>
+                      </span>
+                      </span>
+                  {% endif %}
               </div>
               <div class="panel-body">
                 {{ replay.body }}

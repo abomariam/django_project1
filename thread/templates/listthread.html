@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Add User{% endblock %}
+
+{% block content %}
+<div class="col-md-offset-2 col-md-8">
+
+    <table class="table table-condensed">
+        <tr>
+            <th>#</th>
+            <th>title</th>
+            <th>author</th>
+            <th>sticky</th>
+            <th>lock</th>
+            <th>time</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        {%for thread in threads%}
+        <tr>
+            <td>{{thread.id}}</td>
+            <td>{{thread.title}}</td>
+            <td>{{thread.author}}</td>
+            <td>{{thread.sticky}}</td>
+            <td>{{thread.lock}}</td>
+            <td>{{thread.time}}</td>
+            <td><a href="/thread/edit/{{thread.id}}" class="btn btn-info">Edit</a></td>
+            <td><a href="/thread/delete/{{thread.id}}" class="btn btn-info">delete</a></td>
+        </tr>
+        {%endfor%}
+        </tr>
+
+    </table>
+</div>
+{% endblock %}

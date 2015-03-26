@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'replay',
     'thread',
+    'user_messages'
 )
 
 MIDDLEWARE_CLASSES = (

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Add User{% endblock %}
+
+{% block content %}
+<div class="col-md-offset-2 col-md-8">
+
+    <table class="table table-condensed">
+        <tr>
+            <th>#</th>
+            <th>title</th>
+            <th>Body</th>
+            <th>time</th>
+            <!--<th>Edit</th>-->
+            <!--<th>Delete</th>-->
+        </tr>
+        {%for replay in replays%}
+        <tr>
+            <td>{{replay.id}}</td>
+            <td>{{replay.title}}</td>
+            <td>{{replay.body}}</td>
+            <td>{{replay.time}}</td>
+            <td><a href="/replay/edit/{{replay.id}}" class="btn btn-info">Edit</a></td>
+            <td><a href="/replay/delete/{{replay.id}}" class="btn btn-info">delete</a></td>
+        </tr>
+        {%endfor%}
+        </tr>
+
+    </table>
+</div>
+{% endblock %}
