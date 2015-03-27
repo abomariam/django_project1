@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('user', '0002_auto_20150325_1804'),
-        ('thread', '__first__'),
+        ('mythread', '__first__'),
         ('replay', '0002_auto_20150326_0726'),
     ]
 
@@ -21,8 +21,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='replay',
-            name='thread',
-            field=models.ForeignKey(default=1, to='thread.Thread'),
+            name='mythread',
+            field=models.ForeignKey(default=1, to='mythread.Thread'),
             preserve_default=False,
         ),
     ]

@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from thread.views import *
+from mythread.views import *
 
 urlpatterns = patterns('',
     url(r'^$', listThread),

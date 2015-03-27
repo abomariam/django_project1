@@ -10,6 +10,6 @@ urlpatterns = patterns('',
     url(r'^replay/', include('replay.urls')),
     url(r'^category/', include('cat_forum.cat_urls')),
     url(r'^forum/', include('cat_forum.forum_urls')),
-    url(r'^thread/', include('thread.urls')),
+    url(r'^thread/', include('mythread.urls')),
     url(r'^messages/', include('user_messages.urls'))
 )

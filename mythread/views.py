@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from thread.forms import *
-from thread.models import *
+from mythread.forms import *
+from mythread.models import *
 from user.helper import *
 from copy import deepcopy
 from replay.forms import *
@@ -17,22 +17,22 @@ def list_replies(request, id):
 
     form = ReplayForm()
     del form.fields['author']
-    del form.fields['thread']
+    del form.fields['mythread']
 
     if request.method == 'POST':
         data = deepcopy(request.POST)
         data['author'] = get_user(request).id
-        data['thread'] = id
+        data['mythread'] = id
 
         form = ReplayForm(data=data)
         if form.is_valid():
             form.save()
-            return redirect('/thread/list/'+str(id))
+            return redirect('/mythread/list/'+str(id))
         else:
             del form.fields['author']
-            del form.fields['thread']
+            del form.fields['mythread']
 
-    return render(request,'list_replays.html',{'thread':thread,'form':form, 'user1':get_user(request)})
+    return render(request,'list_replays.html',{'mythread':thread,'form':form, 'user1':get_user(request)})
 
 
 # Create your views here.
@@ -95,7 +95,7 @@ def editThread(request,id):
         # del form.fields['password']
         if form.is_valid():
             form.save()
-            return redirect('/thread/list/'+str(thread_id))
+            return redirect('/mythread/list/'+str(thread_id))
     else :
         form = ThreadForm(instance=thread)
         del form.fields['author']

@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from user.helper import *
 
 from cat_forum.models import *
-# from thread import *
+# from mythread import *
 
 def index_action(request):
     cats = Category.objects.all()

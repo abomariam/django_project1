@@ -39,7 +39,7 @@ def editReplay(request,id):
     if request.method == 'POST' :
         data = deepcopy(request.POST)
         data['author'] = replay.author.id
-        data['thread'] = replay.thread.id
+        data['mythread'] = replay.thread.id
         form = ReplayForm(data=data,instance=replay)
         # del form.fields['password']
         if form.is_valid():
@@ -48,7 +48,7 @@ def editReplay(request,id):
     else :
         form = ReplayForm(instance=replay)
         del form.fields['author']
-        del form.fields['thread']
+        del form.fields['mythread']
 
 
     return render(request,'replayform.html',{'form':form})

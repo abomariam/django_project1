@@ -1,8 +1,8 @@
 from django.db import models
 #from django_countries.fields import CountryField
-# from thread.models import Thread
+# from mythread.models import Thread
 from user.models import *
-from thread.models import *
+from mythread.models import *
 
 class Replay(models.Model):
     author = models.ForeignKey(User)
