@@ -44,7 +44,7 @@ INSTALLED_APPS = (
     'cat_forum',
     'crispy_forms',
     'replay',
-    # 'thread',
+    'thread',
     'user_messages'
 )
 
