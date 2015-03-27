@@ -1,1 +1,1 @@
-default_app_config = 'thread.apps.Config'
+# default_app_config = 'thread.apps.Config'
