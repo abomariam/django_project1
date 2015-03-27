@@ -1,0 +1,3 @@
+pip install --upgrade django-crispy-forms
+
+pip install django-countries
