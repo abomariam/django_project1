@@ -1,0 +1,35 @@
+
+{% extends 'base.html' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+<div class="col-md-offset-2 col-md-8">
+    <a href="/user/edit/{{ user1.id }}" class="btn btn-success pull-right" style="margin-bottom: 10px"><span class="glyphicon glyphicon-edit"></span> Edit Profile</a>
+    <table class="table table-responsive">
+        <tr>
+            <td>Name:</td><td>{{ user1.name }}</td>
+        </tr>
+        <tr>
+            <td>Email:</td><td>{{ user1.email }}</td>
+        </tr>
+        <tr>
+            <td>Gender:</td><td>{%  if user1.gender == 'm' %}Male {% else %} Female {% endif %}</td>
+        </tr>
+        <tr>
+            <td>Country:</td><td>{{ user1.country.name }}</td>
+        </tr>
+        <tr>
+            <td>Role:</td><td>{%  if user1.role == 'a' %}Admin {% else %} Regular {% endif %}</td>
+        </tr>
+        <tr>
+            <td>Is Banned:</td><td>{{ user1.is_banned }}</td>
+        </tr>
+        <tr>
+            <td>Signature:</td><td>{{ user1.signature }}</td>
+        </tr>
+
+    </table>
+
+</div>
+{% endblock %}

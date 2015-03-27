@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="col-md-offset-2 col-md-8">
-   {% if user1 %}
+   {% if user1 and not forum.lock %}
     <div style="margin-bottom: 5px">
     <a href="/thread/add/{{ forum.id }}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add Thread</a>
     </div>
@@ -34,9 +34,19 @@
                 </thead>
                 <tbody>
                     {% for thread in forum.thread_set.all %}
+                        {% if thread.sticky %}
+                        <tr class="bg-success">
+                            <td><a href="/thread/list/{{ thread.id }}"> {{ thread.title }} </a><span class="badge pull-right">{{ thread.replay_set.all|length }}</span></td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for thread in forum.thread_set.all %}
+                        {% if not thread.sticky %}
                         <tr>
                             <td><a href="/thread/list/{{ thread.id }}"> {{ thread.title }} </a><span class="badge pull-right">{{ thread.replay_set.all|length }}</span></td>
                         </tr>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>

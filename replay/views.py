@@ -3,13 +3,14 @@ from django.http import HttpResponse
 from replay.forms import *
 from replay.models import *
 from user.helper import *
+from user.decorators import *
 from copy import deepcopy
 
 # Create your views here.
 def listReplay(Request):
     replays = Replay.objects.all()
     return render(Request, "listreplay.html", {'replays': replays})
-
+@login_required
 def addReplay(request):
     if request.method == 'POST' :
         form = ReplayForm(data=request.POST)
@@ -21,6 +22,7 @@ def addReplay(request):
 
     return render(request,'replayform.html',{'form':form})
 
+@same_user_or_admin_required
 def editReplay(request,id):
     user = get_user(request)
     try:
@@ -46,7 +48,7 @@ def editReplay(request,id):
     return render(request,'replayform.html',{'form':form})
 
 
-
+@same_user_or_admin_required
 def delReplay(request,id):
     try:
         replay = Replay.objects.get(pk=id)

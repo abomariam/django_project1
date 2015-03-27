@@ -6,6 +6,7 @@ from user.helper import *
 from copy import deepcopy
 from replay.forms import *
 from user.helper import *
+from user.decorators import *
 
 
 def list_replies(request, id):
@@ -39,6 +40,7 @@ def listThread(Request):
     threads = Thread.objects.all()
     return render(Request, "listthread.html", {'threads': threads})
 
+@login_required
 def addThread(request,forum_id):
     user = get_user(request)
     try:
@@ -69,6 +71,7 @@ def addThread(request,forum_id):
 
     return render(request,'threadform.html',{'form':form, 'user1':get_user(request)})
 
+@same_user_or_admin_required
 def editThread(request,id):
     user = get_user(request)
     try:
@@ -101,7 +104,7 @@ def editThread(request,id):
     return render(request,'threadform.html',{'form':form})
 
 
-
+@same_user_or_admin_required
 def delThread(request,id):
     try:
         thread = Thread.objects.get(pk=id)

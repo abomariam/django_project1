@@ -29,7 +29,11 @@
               <li><a href="/user/login"><span class="glyphicon glyphicon-log-in"></span> LogIn</a></li>
               <li><a href="/user/register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
           {% else %}
-              <li><a href=""> Welcome, {{ user1 }}</a></li>
+              <li><a href="/user/profile/{{ user1.id }}"> Welcome, {{ user1 }}</a></li>
+              {% if user1.role == 'a' %}
+                <li><a href="/user/"><span class="glyphicon glyphicon-list-alt"></span> List All Users</a></li>
+              {% endif %}
+              <li><a href="/messages/"><span class="glyphicon glyphicon-envelope"></span> Messages</a></li>
               <li><a href="/user/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
           {% endif %}
     </div><!-- /.navbar-collapse -->

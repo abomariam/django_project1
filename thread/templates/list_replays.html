@@ -53,7 +53,7 @@
     </div>
 </div>
 
-    {% if user1 %}
+    {% if user1 and not thread.lock %}
         <div class="panel panel-primary">
           <div class="panel-heading">
 

@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from cat_forum.models import CatForm
 from copy import deepcopy
 from user.helper import *
+from user.decorators import *
 
 ##################### category #######################################
 
@@ -13,7 +14,7 @@ def cat_list(request):
     categories = Category.objects.all()
     return render(request, 'list_category.html', {'categories': categories})
 
-
+@admmin_required
 def cat_add(request):
     if request.method == 'GET':
         category_form = CatForm()
@@ -30,14 +31,14 @@ def cat_add(request):
     else:
         return HttpResponse('ERROR OCCURED while editing')
 
-
+@admmin_required
 def cat_delete(request, id):
     categories = Category.objects.all()
     cat_id = Category.objects.get(pk=id)
     cat_id.delete()
     return redirect('/',{'user1':get_user(request)})
 
-
+@admmin_required
 def cat_edit(request, id):
     if request.method == 'GET':
         category = Category.objects.get(pk=id)
@@ -58,7 +59,7 @@ def cat_edit(request, id):
 
 
 ####################  forum  ##################################
-
+@admmin_required
 def forum_add(request,cat_id):
     try:
         cat = Category.objects.get(pk=cat_id)
@@ -97,14 +98,14 @@ def threads_list(request,id):
         return HttpResponse("Forum Not Found")
     return render(request, 'list_threads.html', {'forum': forum, 'user1':get_user(request)})
 
-
+@admmin_required
 def forum_delete(request, id):
     forums = Forum.objects.all()
     forum_id = Forum.objects.get(pk=id)
     forum_id.delete()
     return redirect("/")
 
-
+@admmin_required
 def forum_edit(request, id):
     if request.method == 'GET':
         forum = Forum.objects.get(pk=id)
