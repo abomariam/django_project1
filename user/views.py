@@ -50,7 +50,7 @@ def register_user(request):
         form = UserForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/user')
+            return redirect('/')
     else :
         form = UserForm()
         form.fields['is_banned'].widget = forms.HiddenInput()
