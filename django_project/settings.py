@@ -44,7 +44,7 @@ INSTALLED_APPS = (
     'cat_forum',
     'crispy_forms',
     'replay',
-    'thread',
+    # 'thread',
     'user_messages'
 )
 
@@ -98,6 +98,6 @@ TEMPLATE_DIRS = (
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
