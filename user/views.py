@@ -84,9 +84,8 @@ def edit_user(request,id):
         form.fields['email'].widget.attrs['readonly'] = True
         del form.fields['password']
         if loggedin_user.role != 'a':
-            pass
-        del form.fields['is_banned']
-        del form.fields['role']
+            del form.fields['is_banned']
+            del form.fields['role']
 
 
     return render(request,'user_form.html',{'form':form, 'user1':get_user(request)})
