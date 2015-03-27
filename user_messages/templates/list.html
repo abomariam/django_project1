@@ -3,8 +3,13 @@
 {% block title %}Messages Between {{ other_user.name }}{% endblock %}
 
 {% block content %}
+    {% load crispy_forms_tags %}
     <div class="col-md-offset-2 col-md-8">
-
+                    <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/messages/">Messages</a></li>
+    </ol>
+        {{ user_form |crispy  }}
         <table class="table">
             {% for message in messages %}
                 <tr>
@@ -18,7 +23,7 @@
                     <td>
                         <form method="post">
                             {% csrf_token %}
-                            {% load crispy_forms_tags %}
+
                             {{ form|crispy }}
                             <input type="submit" class="btn btn-success pull-right" value="Send" />
                         </form>
@@ -28,4 +33,17 @@
         </table>
 
     </div>
+
+    <script>
+        sender = document.getElementById('id_sender')
+        sender.value = {{ other_user.id }};
+        sender.remove({{ user1.id }})
+        sender.remove(0)
+        sender.addEventListener('change',changeUser)
+
+        function changeUser(){
+            window.location="/messages/"+sender.value;
+        }
+
+    </script>
 {% endblock %}

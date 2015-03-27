@@ -4,25 +4,17 @@
 
 {% block content %}
     <div class="col-md-offset-2 col-md-8">
+            <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+    </ol>
         <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>sender Name</th>
-                <th>reciver Name</th>
-                <th>Body</th>
-                <!--<th>setting</th>-->
-            </tr>
-        </thead>
-        <tbody>
-            {% for message in messages %}
+
+            {% for user in users %}
+                {% if user.id != user1.id %}
                 <tr>
-                    <td>{{ message.id }}</td>
-                    <td>{{ message.sender.name }}</td>
-                    <td>{{ message.reciever.name }}</td>
-                    <td>{{ message.body }}</td>
-                   <!--<td><a href="/message/delete/{{ message.id }}" >Delete</a></td>-->
+                    <td><a href="/messages/{{ user.id }}"> {{ user.name }}</a></td>
                 </tr>
+                {% endif %}
             {% endfor %}
         </tbody>
 

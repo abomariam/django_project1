@@ -71,13 +71,17 @@ def addThread(request,forum_id):
 
     return render(request,'threadform.html',{'form':form, 'user1':get_user(request)})
 
-@same_user_or_admin_required
+# @same_user_or_admin_required
+@login_required
 def editThread(request,id):
     user = get_user(request)
     try:
         thread = Thread.objects.get(pk=id)
     except:
         return HttpResponse("thread Not Found")
+
+    if not (user.id == thread.author.id or user.role == 'a'):
+        return render(request,'error.html',{'msg':'You Must Be The Author or the admin', 'user1': user})
 
     if request.method == 'POST' :
         data = deepcopy(request.POST)
@@ -91,7 +95,7 @@ def editThread(request,id):
         # del form.fields['password']
         if form.is_valid():
             form.save()
-            return redirect('/thread/list/'+str(id))
+            return redirect('/thread/list/'+str(thread_id))
     else :
         form = ThreadForm(instance=thread)
         del form.fields['author']
@@ -104,10 +108,15 @@ def editThread(request,id):
     return render(request,'threadform.html',{'form':form})
 
 
-@same_user_or_admin_required
+# @same_user_or_admin_required
+@login_required
 def delThread(request,id):
+    user = get_user()
     try:
         thread = Thread.objects.get(pk=id)
+        if not (user.id == thread.author.id or user.role == 'a'):
+            return render(request,'error.html',{'msg':'You Must Be The Author or the admin', 'user1': user})
+
         forum_id = thread.forum.id
         thread.delete()
         return redirect('/forum/list/'+str(forum_id))

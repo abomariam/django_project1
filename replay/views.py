@@ -10,6 +10,7 @@ from copy import deepcopy
 def listReplay(Request):
     replays = Replay.objects.all()
     return render(Request, "listreplay.html", {'replays': replays})
+
 @login_required
 def addReplay(request):
     if request.method == 'POST' :
@@ -22,13 +23,18 @@ def addReplay(request):
 
     return render(request,'replayform.html',{'form':form})
 
-@same_user_or_admin_required
+# @same_user_or_admin_required
+@login_required
 def editReplay(request,id):
     user = get_user(request)
     try:
         replay = Replay.objects.get(pk=id)
     except:
-        return HttpResponse("replay Not Found")
+        return render(request,'error.html',{'msg':'Replay Not Found', 'user1': user})
+
+
+    if not (user.id == replay.author.id or user.role == 'a'):
+        return render(request,'error.html',{'msg':'You Must Be The Author or the admin', 'user1': user})
 
     if request.method == 'POST' :
         data = deepcopy(request.POST)
@@ -48,13 +54,20 @@ def editReplay(request,id):
     return render(request,'replayform.html',{'form':form})
 
 
-@same_user_or_admin_required
-def delReplay(request,id):
+# @same_user_or_admin_required
+@login_required
+def delReplay(request,id,replay_id):
+    user = get_user(request)
     try:
-        replay = Replay.objects.get(pk=id)
+        replay = Replay.objects.get(pk=replay_id)
+        thread_id = replay.thread.id
+
+        if not (user.id == replay.author.id or user.role == 'a'):
+            return render(request,'error.html',{'msg':'You Must Be The Author or the admin', 'user1': user})
+
         replay.delete()
 
     except Replay.DoesNotExist:
-        return HttpResponse('Not found')
+        return render(request,'error.html',{'msg':'Replay Not Found', 'user1': user})
 
-    return redirect('/replay')
+    return redirect('/thread/list/'+str(thread_id))
