@@ -3,3 +3,4 @@ venv
 staticfiles
 __pychache__
 .idea
+db.sqlite3

@@ -17,22 +17,22 @@ def list_replies(request, id):
 
     form = ReplayForm()
     del form.fields['author']
-    del form.fields['mythread']
+    del form.fields['thread']
 
     if request.method == 'POST':
         data = deepcopy(request.POST)
         data['author'] = get_user(request).id
-        data['mythread'] = id
+        data['thread'] = id
 
         form = ReplayForm(data=data)
         if form.is_valid():
             form.save()
-            return redirect('/mythread/list/'+str(id))
+            return redirect('/thread/list/'+str(id))
         else:
             del form.fields['author']
-            del form.fields['mythread']
+            del form.fields['thread']
 
-    return render(request,'list_replays.html',{'mythread':thread,'form':form, 'user1':get_user(request)})
+    return render(request,'list_replays.html',{'thread':thread,'form':form, 'user1':get_user(request)})
 
 
 # Create your views here.
@@ -95,7 +95,7 @@ def editThread(request,id):
         # del form.fields['password']
         if form.is_valid():
             form.save()
-            return redirect('/mythread/list/'+str(thread_id))
+            return redirect('/thread/list/'+str(id))
     else :
         form = ThreadForm(instance=thread)
         del form.fields['author']
