@@ -111,7 +111,7 @@ def editThread(request,id):
 # @same_user_or_admin_required
 @login_required
 def delThread(request,id):
-    user = get_user()
+    user = get_user(request)
     try:
         thread = Thread.objects.get(pk=id)
         if not (user.id == thread.author.id or user.role == 'a'):
